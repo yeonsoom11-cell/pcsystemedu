@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>스마트구몬 PC버전 교육 신청</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f9; --card:#ffffff; --ink:#1b1f24; --muted:#5f6873; --line:#e3e6ea;
+  --brand:#e2231a; --brand-ink:#ffffff; --brand-soft:#fde9e8;
+  --ok:#1f8a4c; --ok-soft:#e5f5ec; --warn:#b35c00; --warn-soft:#fff2e0;
+  --seat:#eef0f3; --seat-on:#e2231a;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 4px 16px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme:dark){:root{
+  --bg:#121417; --card:#1b1e23; --ink:#eceef1; --muted:#9aa3ad; --line:#2c3138;
+  --brand:#ff4b42; --brand-soft:#3a1d1c; --ok:#4cc380; --ok-soft:#173326;
+  --warn:#f0a24a; --warn-soft:#3a2a15; --seat:#2a2f36; --seat-on:#ff4b42; --shadow:none;
+}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans KR",system-ui,-apple-system,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:760px;margin:0 auto;padding:28px 16px 64px}
+.tag{display:inline-block;font-size:12.5px;font-weight:700;color:var(--brand);background:var(--brand-soft);padding:4px 10px;border-radius:999px}
+h1{font-size:clamp(24px,5.4vw,32px);font-weight:800;margin:12px 0 6px;letter-spacing:-.02em;line-height:1.25}
+.sub{color:var(--muted);margin:0 0 18px;font-size:15px}
+.info{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:var(--muted);margin-bottom:24px}
+.info b{color:var(--ink);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);margin-bottom:18px}
+h2{font-size:17px;margin:0 0 14px;font-weight:700}
+.sessions{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:560px){.sessions{grid-template-columns:1fr}}
+.sess{border:2px solid var(--line);border-radius:14px;padding:16px;cursor:pointer;background:var(--card);text-align:left;font:inherit;color:inherit;width:100%;transition:border-color .15s,background .15s}
+.sess:hover:not(:disabled){border-color:var(--brand)}
+.sess[aria-pressed="true"]{border-color:var(--brand);background:var(--brand-soft)}
+.sess:disabled{cursor:not-allowed;opacity:.6}
+.sess .no{font-size:13px;font-weight:700;color:var(--brand)}
+.sess .time{font-size:20px;font-weight:800;margin:2px 0 10px}
+.seats{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin-bottom:8px}
+.seats i{display:block;aspect-ratio:1;border-radius:4px;background:var(--seat)}
+.seats i.on{background:var(--seat-on)}
+.cnt{font-size:13.5px;color:var(--muted);display:flex;justify-content:space-between}
+.cnt b{color:var(--ink)}
+.full{font-weight:700;color:var(--brand)}
+label{display:block;font-size:14px;font-weight:600;margin:16px 0 6px}
+label small{font-weight:400;color:var(--muted)}
+input,textarea,select{width:100%;font:inherit;font-size:16px;padding:11px 13px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink)}
+input:focus,textarea:focus,select:focus{outline:2px solid var(--brand);outline-offset:-1px;border-color:transparent}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:0 12px}
+@media (max-width:560px){.row2{grid-template-columns:1fr}}
+.agree{display:flex;gap:8px;align-items:flex-start;font-weight:400;font-size:13.5px;color:var(--muted);margin-top:18px}
+.agree input{width:18px;height:18px;margin:2px 0 0;flex:none;accent-color:var(--brand)}
+.btn{display:flex;align-items:center;justify-content:center;font:inherit;font-weight:700;font-size:16px;border:0;border-radius:12px;padding:13px 20px;cursor:pointer;background:var(--brand);color:var(--brand-ink);width:100%;margin-top:18px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn.sub2{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.msg{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:14.5px;display:none}
+.msg.ok{display:block;background:var(--ok-soft);color:var(--ok)}
+.msg.err{display:block;background:var(--warn-soft);color:var(--warn)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:560px){.cols{grid-template-columns:1fr}}
+.cols h3{font-size:14px;margin:0 0 6px;color:var(--brand)}
+.names{font-size:14px;margin:0;padding-left:20px}
+.empty{color:var(--muted);font-size:14px}
+.banner{font-size:14px;padding:12px 14px;border-radius:10px;background:var(--warn-soft);color:var(--warn);margin-bottom:18px;display:none}
+details summary{cursor:pointer;font-weight:700;font-size:15px}
+details[open] summary{margin-bottom:6px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="tag">교육 신청</span>
+  <h1>스마트구몬 PC버전 교육</h1>
+  <p class="sub">원하는 회차를 선택하고 신청해 주세요. 회차별 선착순 16명까지 신청할 수 있습니다.</p>
+  <div class="info">
+    <span>📅 <b>2026년 10월 23일 (금)</b></span>
+    <span>👥 회차별 정원 <b>16명</b></span>
+  </div>
+
+  <div class="banner" id="banner"></div>
+
+  <section class="card">
+    <h2>1. 회차 선택</h2>
+    <div class="sessions" id="sessions"></div>
+  </section>
+
+  <section class="card">
+    <h2>2. 신청자 정보</h2>
+    <form id="form" novalidate>
+      <div class="row2">
+        <div><label for="name">성명</label><input id="name" autocomplete="name" maxlength="20"></div>
+        <div><label for="phone">연락처</label><input id="phone" type="tel" inputmode="tel" placeholder="010-0000-0000" maxlength="13"></div>
+      </div>
+      <label for="branch">소속 <small>(지국 · 교실명)</small></label>
+      <input id="branch" maxlength="40">
+      <label for="note">요청사항 <small>(선택)</small></label>
+      <textarea id="note" rows="2" maxlength="200"></textarea>
+      <label class="agree"><input type="checkbox" id="agree"> 교육 운영을 위한 성명·소속·연락처 수집에 동의합니다. 연락처는 담당자만 확인합니다.</label>
+      <button class="btn" id="submit" type="submit" disabled>회차를 선택해 주세요</button>
+      <div class="msg" id="msg" role="status"></div>
+    </form>
+  </section>
+
+  <section class="card">
+    <h2>신청 현황</h2>
+    <div class="cols" id="roster"><div class="empty">불러오는 중…</div></div>
+  </section>
+
+  <section class="card">
+    <details>
+      <summary>신청 취소하기</summary>
+      <form id="cancelForm" novalidate>
+        <label for="cSession">회차</label>
+        <select id="cSession"><option value="1">1차 09:30 – 11:00</option><option value="2">2차 11:30 – 13:00</option></select>
+        <div class="row2">
+          <div><label for="cName">성명</label><input id="cName" maxlength="20"></div>
+          <div><label for="cPhone">연락처</label><input id="cPhone" type="tel" inputmode="tel" placeholder="010-0000-0000" maxlength="13"></div>
+        </div>
+        <button class="btn sub2" id="cBtn" type="submit">신청 취소</button>
+        <div class="msg" id="cMsg" role="status"></div>
+      </form>
+    </details>
+  </section>
+</div>
+
+<script>
+/* ▼▼ 구글 Apps Script 웹 앱 URL을 여기에 붙여넣으세요 ▼▼ */
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbze9bMkK6Dna0o7z83gxCYQB57r6E7K8NNuHsC7ee6wh8lgxVCTzAQZgaMMckVVwSmJ/exec";
+/* ▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲▲ */
+
+const SESSIONS = [
+  {id:"1", label:"1차", time:"09:30 – 11:00"},
+  {id:"2", label:"2차", time:"11:30 – 13:00"},
+];
+const CAP = 16;
+const $ = s => document.querySelector(s);
+let state = null;      // {sessions:{1:{count,names}},closed}
+let selected = null;
+let busy = false;
+
+function el(tag, props={}, kids=[]){ const e=document.createElement(tag); Object.assign(e, props); for(const k of [].concat(kids)) if(k!=null) e.append(k); return e; }
+function msg(id, text, kind){ const m=$(id); m.className="msg "+kind; m.textContent=text; }
+function banner(text){ const b=$("#banner"); b.textContent=text; b.style.display=text?"block":"none"; }
+const count = s => state && state.sessions && state.sessions[s] ? state.sessions[s].count : 0;
+
+function renderSessions(){
+  const box=$("#sessions"); box.textContent="";
+  for (const s of SESSIONS){
+    const n=count(s.id), full=n>=CAP;
+    if (full && selected===s.id) selected=null;
+    const btn=el("button",{type:"button",className:"sess",disabled:!state||full||state.closed});
+    btn.setAttribute("aria-pressed",String(selected===s.id));
+    const grid=el("div",{className:"seats"});
+    for(let i=0;i<CAP;i++) grid.append(el("i",{className:i<n?"on":""}));
+    btn.append(
+      el("div",{className:"no",textContent:`${s.label} 교육`}),
+      el("div",{className:"time",textContent:s.time}),
+      grid,
+      el("div",{className:"cnt"},[
+        el("span",{},[el("b",{textContent:String(n)}),` / ${CAP}명`]),
+        full?el("span",{className:"full",textContent:"마감"}):el("span",{textContent:`잔여 ${CAP-n}석`})
+      ])
+    );
+    btn.onclick=()=>{selected=s.id;renderSessions();};
+    box.append(btn);
+  }
+  const b=$("#submit");
+  if(!state){b.disabled=true;b.textContent="신청 현황을 불러오는 중…";}
+  else if(state.closed){b.disabled=true;b.textContent="신청 기간이 끝났습니다";}
+  else if(busy){b.disabled=true;b.textContent="신청 처리 중…";}
+  else if(!selected){b.disabled=true;b.textContent="회차를 선택해 주세요";}
+  else{const s=SESSIONS.find(x=>x.id===selected);b.disabled=false;b.textContent=`${s.label} (${s.time}) 신청하기`;}
+}
+
+function renderRoster(){
+  const box=$("#roster"); box.textContent="";
+  for(const s of SESSIONS){
+    const names=(state&&state.sessions[s.id]&&state.sessions[s.id].names)||[];
+    const col=el("div",{},[el("h3",{textContent:`${s.label} ${s.time} · ${names.length}/${CAP}`})]);
+    col.append(names.length?el("ol",{className:"names"},names.map(t=>el("li",{textContent:t}))):el("div",{className:"empty",textContent:"아직 신청자가 없습니다."}));
+    box.append(col);
+  }
+}
+function render(){renderSessions();renderRoster();}
+
+async function load(){
+  try{
+    const r=await fetch(SCRIPT_URL,{cache:"no-store"});
+    const j=await r.json();
+    if(j&&j.sessions){state=j;banner("");render();}
+  }catch(e){ if(!state) banner("신청 현황을 불러오지 못했습니다. 잠시 후 새로고침해 주세요."); }
+}
+
+async function post(body){
+  const r=await fetch(SCRIPT_URL,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(body)});
+  return r.json();
+}
+
+function phoneFormat(e){
+  const v=e.target.value.replace(/\D/g,"").slice(0,11);
+  e.target.value=v.length<4?v:v.length<8?`${v.slice(0,3)}-${v.slice(3)}`:`${v.slice(0,3)}-${v.slice(3,v.length-4)}-${v.slice(-4)}`;
+}
+$("#phone").addEventListener("input",phoneFormat);
+$("#cPhone").addEventListener("input",phoneFormat);
+const PHONE=/^01\d-\d{3,4}-\d{4}$/;
+
+$("#form").addEventListener("submit",async e=>{
+  e.preventDefault();
+  if(busy||!selected) return;
+  const d={action:"apply",session:selected,name:$("#name").value.trim(),phone:$("#phone").value.trim(),branch:$("#branch").value.trim(),note:$("#note").value.trim()};
+  if(!d.name) return msg("#msg","성명을 입력해 주세요.","err");
+  if(!PHONE.test(d.phone)) return msg("#msg","연락처를 010-0000-0000 형식으로 입력해 주세요.","err");
+  if(!d.branch) return msg("#msg","소속(지국·교실명)을 입력해 주세요.","err");
+  if(!$("#agree").checked) return msg("#msg","개인정보 수집에 동의해 주세요.","err");
+  busy=true; renderSessions(); $("#msg").className="msg";
+  try{
+    const j=await post(d);
+    if(j.sessions) state=Object.assign({},state,{sessions:j.sessions,closed:j.closed});
+    if(j.ok){ msg("#msg","✅ "+j.message+" (10월 23일)","ok"); $("#form").reset(); selected=null; }
+    else msg("#msg",j.message||"신청하지 못했습니다.","err");
+  }catch(err){ msg("#msg","네트워크 오류로 신청하지 못했습니다. 잠시 후 다시 시도해 주세요.","err"); }
+  finally{ busy=false; render(); }
+});
+
+$("#cancelForm").addEventListener("submit",async e=>{
+  e.preventDefault();
+  const d={action:"cancel",session:$("#cSession").value,name:$("#cName").value.trim(),phone:$("#cPhone").value.trim()};
+  if(!d.name||!PHONE.test(d.phone)) return msg("#cMsg","신청할 때 입력한 성명과 연락처를 입력해 주세요.","err");
+  $("#cBtn").disabled=true;
+  try{
+    const j=await post(d);
+    if(j.sessions){state=Object.assign({},state,{sessions:j.sessions});render();}
+    msg("#cMsg",j.message||"",j.ok?"ok":"err");
+    if(j.ok) $("#cancelForm").reset();
+  }catch(err){ msg("#cMsg","네트워크 오류로 취소하지 못했습니다.","err"); }
+  finally{ $("#cBtn").disabled=false; }
+});
+
+render();
+if(SCRIPT_URL.startsWith("PASTE")) banner("관리자 안내: index.html의 SCRIPT_URL에 Apps Script 웹 앱 주소를 넣어 주세요.");
+else { load(); setInterval(load,20000); }
+</script>
+</body>
+</html>
